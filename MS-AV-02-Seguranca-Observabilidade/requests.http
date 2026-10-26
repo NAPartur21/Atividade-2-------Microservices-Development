@@ -1,0 +1,43 @@
+# Requisições prontas para a extensão "REST Client" do VS Code (humao.rest-client).
+# Clique em "Send Request" acima de cada bloco. Suba a aplicação antes (porta 8080).
+
+@host = http://localhost:8080
+
+### 1. Login válido (200)
+POST {{host}}/login
+Content-Type: application/json
+
+{ "username": "user", "senha": "user123" }
+
+### 2. Login inválido (401) - rode 2x seguidas para BLOQUEAR o usuário "user"
+POST {{host}}/login
+Content-Type: application/json
+
+{ "username": "user", "senha": "errada" }
+
+### 3. Troca de senha (público)
+PUT {{host}}/trocarsenha/user
+Content-Type: application/json
+
+{ "atual": "user123", "nova": "novasenha" }
+
+### 4. Cadastra usuário (precisa de ROLE_MANUTENCAO: manut / manut123)
+POST {{host}}/
+Authorization: Basic manut manut123
+Content-Type: application/json
+
+{ "username": "aluno1", "senha": "abc123" }
+
+### 5. Lista usuários (ROLE_MANUTENCAO)
+GET {{host}}/
+Authorization: Basic manut manut123
+
+### 6. Desbloqueia usuário (precisa de ROLE_ADMIN: admin / admin123)
+PUT {{host}}/unlock/user
+Authorization: Basic admin admin123
+
+### 7. Métricas (Prometheus)
+GET {{host}}/actuator/prometheus
+
+### 8. OpenAPI (JSON)
+GET {{host}}/v3/api-docs
